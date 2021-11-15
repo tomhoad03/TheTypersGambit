@@ -1,0 +1,40 @@
+Game Idea:
+Tower defense + typing simulator
+
+Tutorial:
+Pauses the game (like temple run) for each basic Mechanics
+Once the player has understood each, the game flows freely
+
+Core Dynamic:
+Survival
+
+Partial dynamics:
+Destruction, collection, spatial reasoning
+
+Mechanics:
+Escalating difficulty in levels
+Enemies travel from left to right
+Kill enemies by typing out words or doing mental maths or coding and etc.
+Enemies can have multiple words or harder words based on enemy strength
+Game turns into a final boss
+Powerups like barrels or speed things
+Letter freezing so you can't use it
+Type boulder to roll a boulder
+
+Theme:
+Medievel, game of thrones, building 32
+
+Steps in development:
+Enemies moving
+Typing words
+Gaining/losing score
+Powerups
+Tutorial
+Final boss
+Artwork
+Animations
+Pause menu, game over, game finish
+
+Feedback:
+Initial idea needs a lot more mechanics otherwise the tutorial could be quite short and the game too simple
+Add more mechanics (powerups, different enemies, earn health buy typing a word rather than killing an enemy, make the user use strategies, etc.)
