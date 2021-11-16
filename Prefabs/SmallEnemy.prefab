@@ -230,7 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d324254732241e46bb3dcfd9498640b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 75
+  damage: 100
   wordDisplay: {fileID: 2501743965445616050}
   word: 
 --- !u!1 &5473144956222621250

@@ -1,5 +1,5 @@
 {
-    "name": "Keyboard",
+    "name": "KeyInputs",
     "maps": [
         {
             "name": "Player",
@@ -22,7 +22,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "SpacePress",
+                    "name": "EnterWord",
                     "type": "Button",
                     "id": "33670583-3e18-4c72-9479-56beafe9c55c",
                     "expectedControlType": "Button",
@@ -133,8 +133,8 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SpacePress",
+                    "groups": "Keyboard&Mouse",
+                    "action": "EnterWord",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

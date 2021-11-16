@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
 
 public class BigEnemyController : MonoBehaviour
 {
     public float speed = (float) 20;
+    public int damage = 100;
     public TextMeshProUGUI wordDisplay;
     public string word;
 
+    // Creates an enemy with a random word
     void Start() {
-        word = "TEST";
+        // Load the 'large' enemy words from a text file and display one at random
+	string[] words = File.ReadAllLines("Assets/Words/largeWords.txt");
+        word = words[Random.Range(0, words.Length)];
+        damage = word.Length * 50;
         wordDisplay.text = word;
     }
 
+    // Moves the enemy
     void FixedUpdate()
     {
         Vector3 direction = this.transform.position;
@@ -22,6 +29,7 @@ public class BigEnemyController : MonoBehaviour
 
         if (direction.x > 9) {
             Destroy(gameObject);
+            GameObject.Find("Health").GetComponent<HealthController>().health -= damage;
         }
     }
 }
