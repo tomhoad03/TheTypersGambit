@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 75
-  damage: 100
+  damage: 75
   wordDisplay: {fileID: 2501743965445616050}
   word: 
 --- !u!1 &5473144956222621250

@@ -22,7 +22,6 @@ Letter freezing so you can't use it
 Type boulder to roll a boulder
 A mole that disappears for a bit of the journey
 A series of words that form a meaningful sentence
-You have to click on a certain enemies to kill them
 
 Theme:
 Medievel, game of thrones, building 32
