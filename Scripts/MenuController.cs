@@ -24,20 +24,19 @@ public class MenuController : MonoBehaviour
 
     public bool tutorialPlaying = false;
     public bool tutorialPlayed = false;
-
+    public bool finalBossTime = false;
 
     public int tutorialEnemiesKilled = 0;
 
-    private float[] tutorialTimesA = new float[]{0.0f, 4.0f, 8.0f, 12.0f, 16.0f, 20.0f};
-    private float[] tutorialTimesB = new float[]{0.0f, 4.0f, 8.0f};
-    private float[] tutorialTimesC = new float[]{4.0f, 8.0f};
-    private float[] tutorialTimesD = new float[]{0.0f, 4.0f};
-    private float[] tutorialTimesE = new float[]{0.0f, 4.0f, 8.0f};
-    private bool[] tutorialStages = new bool[]{false, false, false, false, false, false, false, false, false, false};
+    private float[] tutorialTimesA;
+    private float[] tutorialTimesB;
+    private float[] tutorialTimesC;
+    private float[] tutorialTimesD;
+    private float[] tutorialTimesE;
+    private bool[] tutorialStages;
 
-    private float[] times = new float[]{60.0f, 120.0f, 180.0f, 240.0f, 300.0f, 360.0f, 420.0f, 480.0f, 540.0f, 600.0f};
-    private float[] timesX = new float[]{1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f};
-    private float startTime = 0.0f;
+    private float[] times;
+    private float startTime;
 
     void Start()
     {
@@ -48,6 +47,7 @@ public class MenuController : MonoBehaviour
         newGameButton.onClick.AddListener(() => {
             if (!tutorialPlayed) {
                 StartTutorialGame();
+                // StartNormalGame();
             } else {
                 StartNormalGame();
             }
@@ -61,6 +61,8 @@ public class MenuController : MonoBehaviour
     void StartTutorialGame() {
         tutorialPlaying = true;
         tutorialPlayed = false;
+
+        tutorialTimesA = new float[]{0.0f, 4.0f, 8.0f, 12.0f, 16.0f, 20.0f};
 
         for (int i = 0; i < tutorialTimesA.Length; i++) {
             tutorialTimesA[i] += Time.time;
@@ -82,7 +84,6 @@ public class MenuController : MonoBehaviour
 
                     GameObject enemyA = Instantiate(tutorialEnemy, new Vector3(0, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyA.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyA.GetComponent<TutorialEnemyController>().word = "Welcome";
                 } else if (Time.time > tutorialTimesA[3]) {
                     tutorialText.text = "These mysterious [REDACTED] use magical shields to defend themselves! Break them.";
                 } else if (Time.time > tutorialTimesA[2]) {
@@ -93,6 +94,8 @@ public class MenuController : MonoBehaviour
                     tutorialText.text = "Help us hero! Our [REDACTED] is under attack!";
                 }
             } else if (!tutorialStages[1] && tutorialEnemiesKilled == 1) {
+                tutorialTimesB = new float[]{0.0f, 4.0f, 8.0f};
+
                 for (int i = 0; i < tutorialTimesB.Length; i++) {
                      tutorialTimesB[i] += Time.time;
                 }
@@ -102,24 +105,24 @@ public class MenuController : MonoBehaviour
                     tutorialText.text = "";
                     tutorialStages[2] = true;
                     this.GetComponent<PlayerController>().tutorialBouldering = true;
+                    this.GetComponent<PlayerController>().availableBoulders += 1;
 
                     GameObject enemyB = Instantiate(tutorialEnemy, new Vector3(-4, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyB.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyB.GetComponent<TutorialEnemyController>().word = "The";
 
                     GameObject enemyC = Instantiate(tutorialEnemy, new Vector3(4, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyC.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyC.GetComponent<TutorialEnemyController>().word = "Gambit";
 
                     GameObject enemyD = Instantiate(tutorialEnemy, new Vector3(0, (float) -2.4, 0), Quaternion.identity) as GameObject;
                     enemyD.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyD.GetComponent<TutorialEnemyController>().word = "Typing";
                 } else if (Time.time > tutorialTimesB[1]) {
                     tutorialText.text = "Watch out! Some for have arrived! Try to use a BOULDER to knock them all out!";
                 } else if (Time.time > tutorialTimesB[0]) {
                     tutorialText.text = "Fantastic! Only a hero like you can read and write that well!";
                 }
             } else if (!tutorialStages[3] && tutorialEnemiesKilled == 1 && this.GetComponent<PlayerController>().tutorialBouldering == false) {
+                tutorialTimesC = new float[]{4.0f, 8.0f};
+
                 for (int i = 0; i < tutorialTimesC.Length; i++) {
                      tutorialTimesC[i] += Time.time;
                 }
@@ -128,16 +131,15 @@ public class MenuController : MonoBehaviour
                 if (Time.time > tutorialTimesC[1]) {
                     tutorialText.text = "";
                     this.GetComponent<PlayerController>().tutorialFreezing = true;
+                    this.GetComponent<PlayerController>().availableTimeFreezes += 1;
                     tutorialStages[4] = true;
 
-                    GameObject enemyE = Instantiate(tutorialEnemy, new Vector3(-10, (float) -0.85, 0), Quaternion.identity) as GameObject;
+                    GameObject enemyE = Instantiate(tutorialEnemy, new Vector3(-8, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyE.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyE.GetComponent<TutorialEnemyController>().word = "Save";
                     enemyE.GetComponent<TutorialEnemyController>().speed = 25;
 
-                    GameObject enemyF = Instantiate(tutorialEnemy, new Vector3(-10, (float) -2.4, 0), Quaternion.identity) as GameObject;
+                    GameObject enemyF = Instantiate(tutorialEnemy, new Vector3(-8, (float) -2.4, 0), Quaternion.identity) as GameObject;
                     enemyF.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyF.GetComponent<TutorialEnemyController>().word = "Us";
                     enemyF.GetComponent<TutorialEnemyController>().speed = 25;
                 } else if (Time.time > tutorialTimesC[0]) {
                     tutorialText.text = "Don't let up hero! You must FREEZE the incoming enemies from the west!";
@@ -150,14 +152,12 @@ public class MenuController : MonoBehaviour
                 }
 
                 if (count == 0) {
-                    GameObject enemyE = Instantiate(tutorialEnemy, new Vector3(-10, (float) -0.85, 0), Quaternion.identity) as GameObject;
+                    GameObject enemyE = Instantiate(tutorialEnemy, new Vector3(-8, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyE.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyE.GetComponent<TutorialEnemyController>().word = "Save";
                     enemyE.GetComponent<TutorialEnemyController>().speed = 25;
 
-                    GameObject enemyF = Instantiate(tutorialEnemy, new Vector3(-10, (float) -2.4, 0), Quaternion.identity) as GameObject;
+                    GameObject enemyF = Instantiate(tutorialEnemy, new Vector3(-8, (float) -2.4, 0), Quaternion.identity) as GameObject;
                     enemyF.transform.parent = GameObject.Find("TutorialEnemies").transform;
-                    enemyF.GetComponent<TutorialEnemyController>().word = "Us";
                     enemyF.GetComponent<TutorialEnemyController>().speed = 25;
                 }
             } else if (!tutorialStages[5] && tutorialStages[4] && tutorialEnemiesKilled == 1 && this.GetComponent<PlayerController>().tutorialFreezing == false) {
@@ -166,6 +166,8 @@ public class MenuController : MonoBehaviour
                 }
                 tutorialStages[5] = true;
             } else if (!tutorialStages[6] && tutorialStages[5] && tutorialEnemiesKilled == 3) {
+                tutorialTimesD = new float[]{0.0f, 4.0f};
+
                 for (int i = 0; i < tutorialTimesD.Length; i++) {
                     tutorialTimesD[i] += Time.time;
                 }
@@ -175,11 +177,14 @@ public class MenuController : MonoBehaviour
                 if (Time.time > tutorialTimesD[1]) {
                     tutorialText.text = "";
                     this.GetComponent<PlayerController>().tutorialHealing = true;
+                    this.GetComponent<PlayerController>().availableHealthKits += 1;
                     tutorialStages[7] = true;
                 } else if (Time.time > tutorialTimesD[0]) {
                     tutorialText.text = "You've taken some damage. You will need some more HEALTH to get back on track!";
                 }
             } else if (!tutorialStages[8] && tutorialStages[7] && this.GetComponent<PlayerController>().tutorialHealing == false) {
+                tutorialTimesE = new float[]{0.0f, 4.0f, 8.0f};
+
                 for (int i = 0; i < tutorialTimesE.Length; i++) {
                     tutorialTimesE[i] += Time.time;
                 }
@@ -203,41 +208,45 @@ public class MenuController : MonoBehaviour
                 tutorialPlayed = true;
                 StartNormalGame();
             }
-        } else if (!tutorialPlaying && !menuOpen) {
+        } else if (!tutorialPlaying && !menuOpen && !finalBossTime) {
             // Checks if health < 0
             gameOver = health.GetComponent<HealthController>().gameOver;
 
-            // Updates the sky - sin(x / 9.55)
-            double angle = (Math.PI * (Time.time - startTime)) / 57.3;
-            double sinAngle = Math.Sin(angle);
+            // Updates the sky - 25 * sin(x / 9.55)
+            double sinAngle = Math.Sin((Time.time - startTime) / 9.55);
 
             Vector3 skyPosition = sky.transform.position;
             skyPosition.y = (float) sinAngle * 25;
+
             sky.transform.position = skyPosition;
 
             // Updates the difficulty based on the day or night
-            if (Time.time > times[8]) {
-                this.GetComponent<PlayerController>().difficulty = 10;
-            }else if (Time.time > times[8]) {
-                this.GetComponent<PlayerController>().difficulty = 9;
-            } else if (Time.time > times[7]) {
-                this.GetComponent<PlayerController>().difficulty = 8;
-            } else if (Time.time > times[6]) {
-                this.GetComponent<PlayerController>().difficulty = 7;
-            } else if (Time.time > times[5]) {
-                this.GetComponent<PlayerController>().difficulty = 6;
-            } else if (Time.time > times[4]) {
-                this.GetComponent<PlayerController>().difficulty = 5;
-            } else if (Time.time > times[3]) {
-                this.GetComponent<PlayerController>().difficulty = 4;
-            } else if (Time.time > times[2]) {
-                this.GetComponent<PlayerController>().difficulty = 3;
-            } else if (Time.time > times[1]) {
-                this.GetComponent<PlayerController>().difficulty = 2;
-            } else if (Time.time > times[0]) {
-                this.GetComponent<PlayerController>().difficulty = 1;
-            } else {
-                this.GetComponent<PlayerController>().difficulty = 0;
+            if (!this.GetComponent<PlayerController>().freeze) {
+                if (Time.time > times[9]) {
+                    this.GetComponent<PlayerController>().difficulty = 10;
+                    this.GetComponent<PlayerController>().finalBossTime = true;
+                    finalBossTime = true;
+                } else if (Time.time > times[8]) {
+                    this.GetComponent<PlayerController>().difficulty = 9;
+                } else if (Time.time > times[7]) {
+                    this.GetComponent<PlayerController>().difficulty = 8;
+                } else if (Time.time > times[6]) {
+                    this.GetComponent<PlayerController>().difficulty = 7;
+                } else if (Time.time > times[5]) {
+                    this.GetComponent<PlayerController>().difficulty = 6;
+                } else if (Time.time > times[4]) {
+                    this.GetComponent<PlayerController>().difficulty = 5;
+                } else if (Time.time > times[3]) {
+                    this.GetComponent<PlayerController>().difficulty = 4;
+                } else if (Time.time > times[2]) {
+                    this.GetComponent<PlayerController>().difficulty = 3;
+                } else if (Time.time > times[1]) {
+                    this.GetComponent<PlayerController>().difficulty = 2;
+                } else if (Time.time > times[0]) {
+                    this.GetComponent<PlayerController>().difficulty = 1;
+                } else {
+                    this.GetComponent<PlayerController>().difficulty = 0;
+                }
             }
         }
     }
@@ -246,10 +255,16 @@ public class MenuController : MonoBehaviour
     void StartNormalGame() {
         ShowMenu(false, false, false);
 
+        times = new float[]{30.0f, 60.0f, 90.0f, 120.0f, 150.0f, 180.0f, 210.0f, 240.0f, 270.0f, 285.0f};
+
         for (int i = 0; i < times.Length; i++) {
             times[i] += Time.time;
         }
         startTime = Time.time;
+
+        this.GetComponent<PlayerController>().availableBoulders = 3;
+        this.GetComponent<PlayerController>().availableTimeFreezes = 3;
+        this.GetComponent<PlayerController>().availableHealthKits = 3;
     }
 
     // Shows or hides the menu

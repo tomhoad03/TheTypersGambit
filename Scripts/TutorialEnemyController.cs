@@ -10,7 +10,9 @@ public class TutorialEnemyController : MonoBehaviour
     public TextMeshProUGUI wordDisplay;
     public string word;
 
-    void Update() {
+    void Start() {
+        string[] words = {"Brute", "Enemy", "Vandal", "Thug", "Bandit", "Attacker", "Invader", "Traitor", "Villain"};
+        word = words[Random.Range(0, words.Length)];
         wordDisplay.text = word;
     }
 

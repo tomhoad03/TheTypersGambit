@@ -233,7 +233,7 @@ MonoBehaviour:
   speed: 0
   damage: 0
   wordDisplay: {fileID: 8484380395396199413}
-  word: TEST
+  word: WORD
 --- !u!1 &6311042919488674744
 GameObject:
   m_ObjectHideFlags: 0

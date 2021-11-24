@@ -6,7 +6,7 @@ using System.IO;
 
 public class SmallEnemyController : MonoBehaviour
 {
-    public float speed = (float) 30;
+    public float speed = (float) 75;
     public int damage = 100;
     public TextMeshProUGUI wordDisplay;
     public string word;
@@ -14,9 +14,9 @@ public class SmallEnemyController : MonoBehaviour
     // Creates an enemy with a random word
     void Start() {
         // Load the 'small' enemy words from a text file and display one at random
-	    string[] words = File.ReadAllLines("Assets/Words/smallWords.txt");
+	    string[] words = File.ReadAllLines(Application.streamingAssetsPath + "/noSwearSmallWords.txt");
         word = words[Random.Range(0, words.Length)];
-        damage = word.Length * 40;
+        damage = word.Length * 50;
         wordDisplay.text = word;
     }
 
