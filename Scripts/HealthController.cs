@@ -5,7 +5,7 @@ using TMPro;
 
 public class HealthController : MonoBehaviour
 {   
-    public int health = 1000;
+    public int health = 2500;
     public TextMeshProUGUI gameOverDisplay;
     public TextMeshProUGUI gameOverScoreDisplay;
     public GameObject player;

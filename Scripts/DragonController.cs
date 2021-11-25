@@ -7,8 +7,8 @@ using System.IO;
 public class DragonController : MonoBehaviour
 {
     public GameObject player;
-    public float speed = (float) 5;
-    public int damage = 1000;
+    public float speed = (float) 8;
+    public int damage = 10000;
     public TextMeshProUGUI paraDisplay;
     public string words = "MWAHAHA I AM THE BIG DRAGON";
     public List<string> wordsLeft;
@@ -61,10 +61,10 @@ public class DragonController : MonoBehaviour
             
         
             // Loop through all the words that should be red
-                    foreach (string w in wordsRight) {
-                        right += w;
+            foreach (string w in wordsRight) {
+                right += w;
                 right += " ";
-                    }
+            }
             right += "</color>";
 
             // Piece together the two parts and update the display
@@ -76,8 +76,8 @@ public class DragonController : MonoBehaviour
             // Check if the game has been won   
             if (wordsRight.Count == 0) {
                 GameObject.Find("Player").GetComponent<PlayerController>().dragonActive = false;
-                GameObject.Find("Player").GetComponent<PlayerController>().score += damage * 100;
-                GameObject.Find("Health").GetComponent<HealthController>().health += 1000;
+                GameObject.Find("Player").GetComponent<PlayerController>().score += damage;
+                GameObject.Find("Health").GetComponent<HealthController>().health += 2500;
                 Destroy(GameObject.FindGameObjectsWithTag("Dragon")[0]);
             }
         }

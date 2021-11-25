@@ -16,7 +16,7 @@ public class BigEnemyController : MonoBehaviour
         // Load the 'large' enemy words from a text file and display one at random
         string[] words = File.ReadAllLines(Application.streamingAssetsPath + "/noSwearLargeWords.txt");
         word = words[Random.Range(0, words.Length)];
-        damage = word.Length * 50;
+        damage = 100 + (word.Length * 50);
         wordDisplay.text = word;
     }
 

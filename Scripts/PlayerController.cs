@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bigEnemy;
     public GameObject boulder;
     public GameObject dragon;
+    public AudioSource ding;
 
     public TMP_InputField wordField;
     public TextMeshProUGUI wordDisplay;
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private string word = "";
 
-    private float[] gamePaces = new float[]{6.0f, 4.5f, 6.0f, 4.0f, 6.0f, 3.5f, 6.0f, 3.0f, 6.0f, 2.5f, 3.0f};
+    private float[] gamePaces = new float[]{6.0f, 4.5f, 6.0f, 4.0f, 5.0f, 3.5f, 5.0f, 3.0f, 4.0f, 2.5f, 2.0f};
     public int difficulty = 0;
 
     private float nextSmallEnemy = 0.0f;
@@ -50,6 +51,8 @@ public class PlayerController : MonoBehaviour
     private float freezeTime;
     private int freezeDifficulty;
     public bool freeze = false;
+    private bool nightSpeed = false;
+    private bool daySpeed = true;
 
     // Reads a word from the user
     void OnEnterWord(InputValue spaceValue) {
@@ -121,7 +124,7 @@ public class PlayerController : MonoBehaviour
             availableHealthKits -= 1;
 	        healthKitsDisplay.text = "" + availableHealthKits;
             tutorialHealing = false;
-            GameObject.Find("Health").GetComponent<HealthController>().health += 1000;
+            GameObject.Find("Health").GetComponent<HealthController>().health += 2500;
 	    }
     }
 
@@ -138,15 +141,62 @@ public class PlayerController : MonoBehaviour
         if (Time.time > freezeTime && freeze && !tutorialPlaying) {
             difficulty = freezeDifficulty;
             freeze = false;
-        } else if (!tutorialPlaying && !freeze) {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-            foreach (GameObject enemy in enemies) {
-                if (enemy.GetComponent<SmallEnemyController>() != null) {
-                    enemy.GetComponent<SmallEnemyController>().speed = 75;
-                } else if (enemy.GetComponent<BigEnemyController>() != null) {
-                    enemy.GetComponent<BigEnemyController>().speed = 50;
+            // Changes the speed during the day/night
+            if ((difficulty % 2 != 0 || difficulty == 10) && nightSpeed) {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                foreach (GameObject enemy in enemies) {
+                    if (enemy.GetComponent<SmallEnemyController>() != null) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 85;
+                    } else if (enemy.GetComponent<BigEnemyController>() != null) {
+                        enemy.GetComponent<BigEnemyController>().speed = 60;
+                    }
                 }
+                ding.Play();
+                nightSpeed = false;
+                daySpeed = true;
+            } else if (difficulty % 2 == 0 && daySpeed) {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                foreach (GameObject enemy in enemies) {
+                    if (enemy.GetComponent<SmallEnemyController>() != null) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 75;
+                    } else if (enemy.GetComponent<BigEnemyController>() != null) {
+                        enemy.GetComponent<BigEnemyController>().speed = 50;
+                    }
+                }
+                ding.Play();
+                nightSpeed = true;
+                daySpeed = false;
+            }
+        } else if (!tutorialPlaying && !freeze) {
+
+            // Changes the speed during the day/night
+            if ((difficulty % 2 != 0 || difficulty == 10) && nightSpeed) {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                foreach (GameObject enemy in enemies) {
+                    if (enemy.GetComponent<SmallEnemyController>() != null) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 85;
+                    } else if (enemy.GetComponent<BigEnemyController>() != null) {
+                        enemy.GetComponent<BigEnemyController>().speed = 60;
+                    }
+                }
+                nightSpeed = false;
+                daySpeed = true;
+            } else if (difficulty % 2 == 0 && daySpeed) {
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                foreach (GameObject enemy in enemies) {
+                    if (enemy.GetComponent<SmallEnemyController>() != null) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 75;
+                    } else if (enemy.GetComponent<BigEnemyController>() != null) {
+                        enemy.GetComponent<BigEnemyController>().speed = 50;
+                    }
+                }
+                nightSpeed = true;
+                daySpeed = false;
             }
         }
         boulderDisplay.text = "" + availableBoulders;
@@ -174,7 +224,7 @@ public class PlayerController : MonoBehaviour
         tutorialPlaying = this.GetComponent<MenuController>().tutorialPlaying;
 
         // Enters the final boss phase of the game
-        if (difficulty == 10 && finalBossTime && !dragonActive) {
+        if (difficulty == 10 && finalBossTime && !gameOver && !dragonActive) {
             finalBossTime = false;
             
             Instantiate(dragon, new Vector3(-12, (float) 2 , 0), Quaternion.identity);
@@ -195,19 +245,27 @@ public class PlayerController : MonoBehaviour
                 if (Time.time > nextSmallEnemy) {
                     GameObject enemy = Instantiate(smallEnemy, new Vector3(-10, (float) -2.4, 0), Quaternion.identity) as GameObject;
                     enemy.transform.parent = GameObject.Find("SmallEnemies").transform;
-                    nextSmallEnemy = Time.time + Random.Range(1.5f, gamePaces[difficulty] + enemy.GetComponent<SmallEnemyController>().word.Length);
+                    nextSmallEnemy = Time.time + Random.Range(2.0f, (gamePaces[difficulty] + enemy.GetComponent<SmallEnemyController>().word.Length) / 1.5f);
 
                     if (freeze) {
                         enemy.GetComponent<SmallEnemyController>().speed = 40;
+                    } else if ((difficulty % 2 != 0 || difficulty == 10)) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 85;
+                    } else if (difficulty % 2 == 0) {
+                        enemy.GetComponent<SmallEnemyController>().speed = 75;
                     }
                 }
                 if (Time.time > nextBigEnemy) {
                     GameObject enemy = Instantiate(bigEnemy, new Vector3(-10, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemy.transform.parent = GameObject.Find("BigEnemies").transform;
-                    nextBigEnemy = Time.time + Random.Range(1.5f, gamePaces[difficulty] + enemy.GetComponent<BigEnemyController>().word.Length);
+                    nextBigEnemy = Time.time + Random.Range(2.5f, (gamePaces[difficulty] + enemy.GetComponent<BigEnemyController>().word.Length) / 1.5f);
 
                     if (freeze) {
                         enemy.GetComponent<BigEnemyController>().speed = 20;
+                    } else if ((difficulty % 2 != 0 || difficulty == 10)) {
+                        enemy.GetComponent<BigEnemyController>().speed = 60;
+                    } else if (difficulty % 2 == 0) {
+                        enemy.GetComponent<BigEnemyController>().speed = 50;
                     }
                 }
             }

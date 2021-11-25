@@ -16,7 +16,7 @@ public class SmallEnemyController : MonoBehaviour
         // Load the 'small' enemy words from a text file and display one at random
 	    string[] words = File.ReadAllLines(Application.streamingAssetsPath + "/noSwearSmallWords.txt");
         word = words[Random.Range(0, words.Length)];
-        damage = word.Length * 50;
+        damage = 100 + (word.Length * 50);
         wordDisplay.text = word;
     }
 

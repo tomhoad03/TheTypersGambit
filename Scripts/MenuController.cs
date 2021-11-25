@@ -46,8 +46,8 @@ public class MenuController : MonoBehaviour
         // Determines the functionality of the menu buttons
         newGameButton.onClick.AddListener(() => {
             if (!tutorialPlayed) {
-                StartTutorialGame();
-                // StartNormalGame();
+                //StartTutorialGame();
+                StartNormalGame();
             } else {
                 StartNormalGame();
             }
@@ -85,13 +85,13 @@ public class MenuController : MonoBehaviour
                     GameObject enemyA = Instantiate(tutorialEnemy, new Vector3(0, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyA.transform.parent = GameObject.Find("TutorialEnemies").transform;
                 } else if (Time.time > tutorialTimesA[3]) {
-                    tutorialText.text = "These mysterious [REDACTED] use magical shields to defend themselves! Break them.";
+                    tutorialText.text = "These mysterious enemies use magical shields to defend themselves! Break them.";
                 } else if (Time.time > tutorialTimesA[2]) {
-                    tutorialText.text = "They have sent their armies of [REDACTED] to attack us!";
+                    tutorialText.text = "They have sent their armies to attack us!";
                 } else if (Time.time > tutorialTimesA[1]) {
-                    tutorialText.text = "There are rumours of a [REDACTED] approaching from the west!";
+                    tutorialText.text = "There are rumours of a dragon approaching from the west!";
                 } else if (Time.time > tutorialTimesA[0]) {
-                    tutorialText.text = "Help us hero! Our [REDACTED] is under attack!";
+                    tutorialText.text = "Help us hero! Our castle is under attack!";
                 }
             } else if (!tutorialStages[1] && tutorialEnemiesKilled == 1) {
                 tutorialTimesB = new float[]{0.0f, 4.0f, 8.0f};
@@ -171,7 +171,7 @@ public class MenuController : MonoBehaviour
                 for (int i = 0; i < tutorialTimesD.Length; i++) {
                     tutorialTimesD[i] += Time.time;
                 }
-                GameObject.Find("Health").GetComponent<HealthController>().health -= 500;
+                GameObject.Find("Health").GetComponent<HealthController>().health -= 900;
                 tutorialStages[6] = true;
             } else if (!tutorialStages[7] && tutorialStages[6]) {
                 if (Time.time > tutorialTimesD[1]) {
@@ -188,14 +188,14 @@ public class MenuController : MonoBehaviour
                 for (int i = 0; i < tutorialTimesE.Length; i++) {
                     tutorialTimesE[i] += Time.time;
                 }
-                GameObject.Find("Health").GetComponent<HealthController>().health += 500;
+                GameObject.Find("Health").GetComponent<HealthController>().health += 2500;
                 tutorialStages[8] = true;
             } else if (!tutorialStages[9] && tutorialStages[8]) {
                 if (Time.time > tutorialTimesE[2]) {
                     tutorialText.text = "";
                     tutorialStages[9] = true;
                 } else if (Time.time > tutorialTimesE[1]) {
-                    tutorialText.text = "Be careful hero, be smart about with your powerups and watch out for that [REDACTED]!";
+                    tutorialText.text = "Be careful hero, be smart about with your powerups and watch out for that dragon!";
                 } else if (Time.time > tutorialTimesE[0]) {
                     tutorialText.text = "Phew that was tough! I fear more enemies will come, especially during the night!";
                 }
