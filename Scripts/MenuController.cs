@@ -46,8 +46,8 @@ public class MenuController : MonoBehaviour
         // Determines the functionality of the menu buttons
         newGameButton.onClick.AddListener(() => {
             if (!tutorialPlayed) {
-                //StartTutorialGame();
-                StartNormalGame();
+                StartTutorialGame();
+                // StartNormalGame();
             } else {
                 StartNormalGame();
             }
