@@ -47,7 +47,6 @@ public class MenuController : MonoBehaviour
         newGameButton.onClick.AddListener(() => {
             if (!tutorialPlayed) {
                 StartTutorialGame();
-                // StartNormalGame();
             } else {
                 StartNormalGame();
             }
@@ -85,7 +84,7 @@ public class MenuController : MonoBehaviour
                     GameObject enemyA = Instantiate(tutorialEnemy, new Vector3(0, (float) -0.85, 0), Quaternion.identity) as GameObject;
                     enemyA.transform.parent = GameObject.Find("TutorialEnemies").transform;
                 } else if (Time.time > tutorialTimesA[3]) {
-                    tutorialText.text = "These mysterious enemies use magical shields to defend themselves! Break them.";
+                    tutorialText.text = "Break their shields by entering the word and pressing space!";
                 } else if (Time.time > tutorialTimesA[2]) {
                     tutorialText.text = "They have sent their armies to attack us!";
                 } else if (Time.time > tutorialTimesA[1]) {
@@ -116,7 +115,7 @@ public class MenuController : MonoBehaviour
                     GameObject enemyD = Instantiate(tutorialEnemy, new Vector3(0, (float) -2.4, 0), Quaternion.identity) as GameObject;
                     enemyD.transform.parent = GameObject.Find("TutorialEnemies").transform;
                 } else if (Time.time > tutorialTimesB[1]) {
-                    tutorialText.text = "Watch out! Some for have arrived! Try to use a BOULDER to knock them all out!";
+                    tutorialText.text = "Watch out! Some more have arrived! Try to use a BOULDER to knock them all out!";
                 } else if (Time.time > tutorialTimesB[0]) {
                     tutorialText.text = "Fantastic! Only a hero like you can read and write that well!";
                 }
@@ -171,7 +170,7 @@ public class MenuController : MonoBehaviour
                 for (int i = 0; i < tutorialTimesD.Length; i++) {
                     tutorialTimesD[i] += Time.time;
                 }
-                GameObject.Find("Health").GetComponent<HealthController>().health -= 900;
+                GameObject.Find("Health").GetComponent<HealthController>().health -= 1000;
                 tutorialStages[6] = true;
             } else if (!tutorialStages[7] && tutorialStages[6]) {
                 if (Time.time > tutorialTimesD[1]) {
@@ -188,7 +187,7 @@ public class MenuController : MonoBehaviour
                 for (int i = 0; i < tutorialTimesE.Length; i++) {
                     tutorialTimesE[i] += Time.time;
                 }
-                GameObject.Find("Health").GetComponent<HealthController>().health += 2500;
+                GameObject.Find("Health").GetComponent<HealthController>().health += 1500;
                 tutorialStages[8] = true;
             } else if (!tutorialStages[9] && tutorialStages[8]) {
                 if (Time.time > tutorialTimesE[2]) {

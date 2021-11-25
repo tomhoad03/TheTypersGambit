@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public GameObject bigEnemy;
     public GameObject boulder;
     public GameObject dragon;
-    public AudioSource ding;
 
     public TMP_InputField wordField;
     public TextMeshProUGUI wordDisplay;
@@ -142,7 +141,6 @@ public class PlayerController : MonoBehaviour
             difficulty = freezeDifficulty;
             freeze = false;
 
-            // Changes the speed during the day/night
             if ((difficulty % 2 != 0 || difficulty == 10) && nightSpeed) {
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
@@ -153,7 +151,6 @@ public class PlayerController : MonoBehaviour
                         enemy.GetComponent<BigEnemyController>().speed = 60;
                     }
                 }
-                ding.Play();
                 nightSpeed = false;
                 daySpeed = true;
             } else if (difficulty % 2 == 0 && daySpeed) {
@@ -166,7 +163,6 @@ public class PlayerController : MonoBehaviour
                         enemy.GetComponent<BigEnemyController>().speed = 50;
                     }
                 }
-                ding.Play();
                 nightSpeed = true;
                 daySpeed = false;
             }
@@ -224,7 +220,7 @@ public class PlayerController : MonoBehaviour
         tutorialPlaying = this.GetComponent<MenuController>().tutorialPlaying;
 
         // Enters the final boss phase of the game
-        if (difficulty == 10 && finalBossTime && !gameOver && !dragonActive) {
+        if (difficulty == 10 && finalBossTime && !gameOver && !menuOpen && !dragonActive) {
             finalBossTime = false;
             
             Instantiate(dragon, new Vector3(-12, (float) 2 , 0), Quaternion.identity);
@@ -233,6 +229,11 @@ public class PlayerController : MonoBehaviour
 
         if (gameOver) {
             this.GetComponent<MenuController>().finalBossTime = false;
+
+            if (GameObject.FindGameObjectsWithTag("Dragon").Length > 0) {
+                Destroy(GameObject.FindGameObjectsWithTag("Dragon")[0]);
+            }
+            difficulty = 0;
         }
 
         // Keeps the word updated on the screen
